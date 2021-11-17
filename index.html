@@ -210,7 +210,7 @@
     function reportJSError(errorMessage, url, lineNumber) {
       const msg = `Error encountered (${url}, ${lineNumber}): ${errorMessage}`;
       console.log(msg);
-      //TrackJS.track(msg)
+      TrackJS.track(msg)
       return true;
     }
 
