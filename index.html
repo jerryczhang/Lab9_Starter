@@ -87,7 +87,10 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ token: "60b4bb34e27f48a584c07e4dc30f1fef" });
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -100,8 +103,123 @@
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+    errorBtns[0].addEventListener('click', () => {
+      console.log('Console log demo');
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console error demo');
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.count('Console count demo');
+    });
+
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('Console warn demo');
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      console.assert(1 + 1 == 3, 'Console assert demo: 1 + 1 should be 2');
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.log('Console Dir Demo')
+      console.dir(document.head);
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+      console.log('Console Dirxml Demo')
+      console.dirxml(document);
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.group('Console group demo');
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd('Console group demo');
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      console.table([
+        {
+          button: 0,
+          functionality: 'log'
+        },
+        {
+          button: 1,
+          functionality: 'error'
+        },
+        {
+          button: 2,
+          functionality: 'count'
+        }
+      ]);
+    });
+
+    errorBtns[11].addEventListener('click', () => {
+      console.log('Timer started');
+      console.time('timer');
+    });
+
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd('timer');
+    });
+
+    errorBtns[13].addEventListener('click', () => {
+      const func = () => {console.log('Console trace demo'); console.trace()}
+      func();
+    });
+
+    errorBtns[14].addEventListener('click', () => {
+      problem();
+    });
+
+    try {
+      errorBtns[15].addEventListener('click', () => {
+        console.log('Found the button');
+      });
+    } catch (err) {
+      console.log('Button not found');
+    } finally {
+      console.log('Button attempt concluded');
+    }
+
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CustomError";
+      }
+    }
+
+    function throwError() {
+      throw new CustomError('CustomError thrown');
+    }
+
+    try {
+      throwError();
+    } catch (err) {
+      console.log(err.message)
+    }
+
+    function reportJSError(errorMessage, url, lineNumber) {
+      const msg = `Error encountered (${url}, ${lineNumber}): ${errorMessage}`;
+      console.log(msg);
+      //TrackJS.track(msg)
+      return true;
+    }
+
+    if (window.onerror) {
+      let newHandler = (errorMessage,url,lineNumber) => {reportJSError(errorMessage,url,lineNumber);};
+      window.onerror = newHandler;
+    } else {
+      window.onerror = reportJSError;
+    }
   </script>
 </body>
 
